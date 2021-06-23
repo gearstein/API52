@@ -49,7 +49,7 @@ namespace API52.Controllers
                     return get;
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 var get = BadRequest(new { status = HttpStatusCode.BadRequest, result = 0, messasge = "Gagal Register" });
                 return get;

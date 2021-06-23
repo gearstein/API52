@@ -43,6 +43,8 @@ namespace API52.Repository.Data
                     int eduid = edu.EducationId;
                     profilling.NIK = registerVM.NIK;
                     profilling.EducationId = eduid;
+                    string passwordHash = BCrypt.Net.BCrypt.HashPassword(account.Password);
+                    account.Password = passwordHash;
                     //profilling.EducationId = "select educationid from educationid where degree = register.degree and gpa = register.gpa and universityid = register.universityid"
                     context.Employees.Add(employee);
                     context.Accounts.Add(account);

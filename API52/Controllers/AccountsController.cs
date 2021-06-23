@@ -53,5 +53,53 @@ namespace API52.Controllers
                 });
             }
         }
+        [HttpPost("Reset")]
+        public ActionResult ResetPassword(ForgotVM forgotVM)
+        {
+            try
+            {
+                var insert = accountrepository.ResetPassword(forgotVM);
+                if (insert == 1)
+                {
+                    var get = Ok(new { status = HttpStatusCode.OK, result = insert, messasge = "Email Sent" });
+                    return get;
+                }
+                else
+                {
+                    var get = BadRequest(new { status = HttpStatusCode.OK, result = insert, messasge = "Error" });
+                    return get;
+                }
+            }
+            catch (Exception)
+            {
+
+                var get = BadRequest(new { status = HttpStatusCode.OK, result = 0, messasge = "Error" });
+                return get;
+            }
+        }
+        [HttpPost("Change")]
+        public ActionResult ChangePassword(ChangeVM changeVM)
+        {
+            try
+            {
+                var insert = accountrepository.ChangePassword(changeVM);
+                if (insert == 2)
+                {
+                    var get = Ok(new { status = HttpStatusCode.OK, result = insert, messasge = "Change Successful" });
+                    return get;
+                }
+                else
+                {
+                    var get = BadRequest(new { status = HttpStatusCode.OK, result = insert, messasge = "Error" });
+                    return get;
+                }
+            }
+            catch (Exception)
+            {
+
+                var get = BadRequest(new { status = HttpStatusCode.OK, result = 0, messasge = "Error" });
+                return get;
+            }
+        }
     }
 }

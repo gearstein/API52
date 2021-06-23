@@ -66,3 +66,6 @@ C:\Users\ASUS\source\repos\API52\API52\bin\Debug\netcoreapp3.1\Microsoft.AspNetC
 C:\Users\ASUS\source\repos\API52\API52\bin\Debug\netcoreapp3.1\Microsoft.EntityFrameworkCore.Proxies.dll
 C:\Users\ASUS\source\repos\API52\API52\bin\Debug\netcoreapp3.1\Newtonsoft.Json.Bson.dll
 C:\Users\ASUS\source\repos\API52\API52\obj\Debug\netcoreapp3.1\API52.csproj.AssemblyReference.cache
+C:\Users\ASUS\source\repos\API52\API52\bin\Debug\netcoreapp3.1\Scrypt.dll
+C:\Users\ASUS\source\repos\API52\API52\bin\Debug\netcoreapp3.1\System.Web.Helpers.Crypto.dll
+C:\Users\ASUS\source\repos\API52\API52\bin\Debug\netcoreapp3.1\BCrypt.Net-Next.dll
