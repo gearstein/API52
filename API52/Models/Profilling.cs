@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace API52.Models
 {
-    [Table("tb_M_Profilling")]
+    [Table("tb_Tr_Profilling")]
     public class Profilling
     {
         [Key]

@@ -4,14 +4,16 @@ using API52.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace API52.Migrations
 {
     [DbContext(typeof(MyContext))]
-    partial class MyContextModelSnapshot : ModelSnapshot
+    [Migration("20210624035732_renameuni")]
+    partial class renameuni
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -30,21 +32,6 @@ namespace API52.Migrations
                     b.HasKey("NIK");
 
                     b.ToTable("tb_M_Account");
-                });
-
-            modelBuilder.Entity("API52.Models.AccountRole", b =>
-                {
-                    b.Property<string>("NIK")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<int>("RoleID")
-                        .HasColumnType("int");
-
-                    b.HasKey("NIK", "RoleID");
-
-                    b.HasIndex("RoleID");
-
-                    b.ToTable("tb_Tr_AccountRole");
                 });
 
             modelBuilder.Entity("API52.Models.Education", b =>
@@ -114,22 +101,7 @@ namespace API52.Migrations
 
                     b.HasIndex("EducationId");
 
-                    b.ToTable("tb_Tr_Profilling");
-                });
-
-            modelBuilder.Entity("API52.Models.Role", b =>
-                {
-                    b.Property<int>("RoleID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("RoleName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("RoleID");
-
-                    b.ToTable("tb_M_Role");
+                    b.ToTable("tb_M_Profilling");
                 });
 
             modelBuilder.Entity("API52.Models.University", b =>
@@ -156,25 +128,6 @@ namespace API52.Migrations
                         .IsRequired();
 
                     b.Navigation("Employee");
-                });
-
-            modelBuilder.Entity("API52.Models.AccountRole", b =>
-                {
-                    b.HasOne("API52.Models.Account", "Account")
-                        .WithMany()
-                        .HasForeignKey("NIK")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("API52.Models.Role", "Role")
-                        .WithMany()
-                        .HasForeignKey("RoleID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Account");
-
-                    b.Navigation("Role");
                 });
 
             modelBuilder.Entity("API52.Models.Education", b =>

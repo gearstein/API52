@@ -19,6 +19,8 @@ namespace API52.Context
         public DbSet<Profilling> Profillings { get; set; }
         public DbSet<Education> Educations { get; set; }
         public DbSet<University> Universities { get; set; }
+        public DbSet<Role> Roles { get; set; }
+        public DbSet<AccountRole> AccountRoles { get; set; }
         //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         //{
         //    optionsBuilder.UseLazyLoadingProxies();
@@ -43,7 +45,24 @@ namespace API52.Context
             modelbuilder.Entity<Education>()
                 .HasOne(c => c.University)
                 .WithMany(e => e.Educations);
-
+            ////Account - AccountRole - Role
+            //modelbuilder.Entity<AccountRole>()
+            //    .HasKey(ar => new { ar.NIK, ar.RoleID });
+            ////AccountRole - Account
+            //modelbuilder.Entity<AccountRole>()
+            //    .HasOne<Account>(ar => ar.Account)
+            //    .WithMany(a => a.AccountRoles)
+            //    .HasForeignKey(ar => ar.NIK);
+            ////AccountRole - Role
+            //modelbuilder.Entity<AccountRole>()
+            //    .HasOne<Role>(ar => ar.Role)
+            //    .WithMany(a => a.AccountRoles)
+            //    .HasForeignKey(ar => ar.RoleID);
+            modelbuilder.Entity<Role>().HasMany(a => a.Accounts)
+                .WithMany(b => b.Roles).UsingEntity<AccountRole>
+                (c => c.HasOne(d => d.Account)
+                .WithMany().HasForeignKey(e => e.NIK), f => f.HasOne(g => g.Role)
+                .WithMany().HasForeignKey(h => h.RoleID));
             //Conversi String Gender Employee
             modelbuilder.Entity<Employee>()
             .Property(s => s.Gender)
