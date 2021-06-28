@@ -69,3 +69,4 @@ C:\Users\ASUS\source\repos\API52\API52\obj\Debug\netcoreapp3.1\API52.csproj.Asse
 C:\Users\ASUS\source\repos\API52\API52\bin\Debug\netcoreapp3.1\Scrypt.dll
 C:\Users\ASUS\source\repos\API52\API52\bin\Debug\netcoreapp3.1\System.Web.Helpers.Crypto.dll
 C:\Users\ASUS\source\repos\API52\API52\bin\Debug\netcoreapp3.1\BCrypt.Net-Next.dll
+C:\Users\ASUS\source\repos\API52\API52\bin\Debug\netcoreapp3.1\Microsoft.AspNetCore.Authentication.JwtBearer.dll

@@ -2,6 +2,8 @@
 using API52.Models;
 using API52.Repository.Data;
 using API52.ViewModel;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -14,6 +16,7 @@ namespace API52.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [EnableCors("AllowOrigin")]
     public class EmployeesController : BaseController<Employee,EmployeeRepository,string>
     {
         private readonly EmployeeRepository employeerepository;
@@ -21,6 +24,7 @@ namespace API52.Controllers
         {
             this.employeerepository = employeeRepository;
         }
+        [AllowAnonymous]
         [HttpPost]
         [Route("Register")]
         public ActionResult Register(RegisterVM registerVM)
@@ -55,6 +59,7 @@ namespace API52.Controllers
                 return get;
             }
         }
+        //[Authorize]
         [HttpGet("ViewRegister")]
         public ActionResult ViewRegister()
         {
@@ -70,6 +75,7 @@ namespace API52.Controllers
                 return StatusCode(500, ex.Message);
             }
         }
+        //[Authorize]
         [HttpGet("Find/{nik}")]
         public ActionResult FindRegister(string NIK)
         {

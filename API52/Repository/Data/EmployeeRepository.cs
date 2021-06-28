@@ -40,12 +40,14 @@ namespace API52.Repository.Data
                     //account
                     string passwordHash = BCrypt.Net.BCrypt.HashPassword(registerVM.Password);
                     var role1 = context.Roles.Single(a => a.RoleID == 1);
+                    var role2 = context.Roles.Single(a => a.RoleID == 2);
                     var account = new Account()
                     {
                         NIK = employee.NIK,
                         Password = passwordHash,
                         Roles = new List<Role>()
                     };
+                    //account.Roles.Add(role1);
                     account.Roles.Add(role1);
                     context.Accounts.Add(account);
                     context.SaveChanges();
@@ -114,6 +116,8 @@ namespace API52.Repository.Data
                                 join prof in MyContext.Profillings on acc.NIK equals prof.NIK
                                 join edu in MyContext.Educations on prof.EducationId equals edu.EducationId
                                 join uni in MyContext.Universities on edu.UniversityId equals uni.UniversityId
+                                join acrol in MyContext.AccountRoles on acc.NIK equals acrol.NIK
+                                join rol in MyContext.Roles on acrol.RoleID equals rol.RoleID
                                 where emp.NIK == NIK
                                 select new
                                 {
@@ -124,6 +128,7 @@ namespace API52.Repository.Data
                                     emp.BirthDate,
                                     emp.Email,
                                     emp.PhoneNumber,
+                                    rol.RoleName,
                                     emp.Salary,
                                     edu.Degree,
                                     edu.GPA,

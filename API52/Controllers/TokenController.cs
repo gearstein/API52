@@ -1,5 +1,6 @@
 ﻿using API52.Context;
 using API52.ViewModel;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -17,6 +18,7 @@ namespace API52.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [EnableCors("AllowOrigin")]
     public class TokenController : ControllerBase
     {
         public IConfiguration configuration;
@@ -38,19 +40,19 @@ namespace API52.Controllers
                 if (user != null && BCrypt.Net.BCrypt.Verify(loginVM.Password, user.Password))
                 {
                     var email = myContext.Employees.Find(user.NIK);
-                    var role = myContext.AccountRoles.FirstOrDefault(a => a.RoleID.ToString() == user.NIK);
-                    var find = myContext.Roles.FirstOrDefault(b => b.RoleID.ToString() == role.NIK);
+                    var role = myContext.AccountRoles.FirstOrDefault(a => a.NIK == user.NIK);
+                    var find = myContext.Roles.Find(role.RoleID);
                     var claims = new[]
                     {
                     new Claim("Email", email.Email),
-                    new Claim("Role", find.RoleName)
+                    new Claim("role", find.RoleName)
                 };
                     var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["JWT:Key"]));
                     var sigIn = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
                     var token = new JwtSecurityToken(configuration["Jwt:Issuer"], configuration["Jwt:Audience"],
                         claims, expires: DateTime.UtcNow.AddDays(1), signingCredentials: sigIn);
                     var show = new JwtSecurityTokenHandler().WriteToken(token);
-                    return Ok(new { status = HttpStatusCode.OK, nik = user.NIK, token = show });
+                    return Ok((new { status = HttpStatusCode.OK, result = show, messasge = "Login Berhasil" }));
                 }
                 else
                 {
@@ -59,7 +61,29 @@ namespace API52.Controllers
             }
             else
             {
-                return BadRequest();
+                var user = myContext.Employees.FirstOrDefault(a => a.Email == loginVM.NIK);
+                var akun = myContext.Accounts.Find(user.NIK);
+                if (user != null && BCrypt.Net.BCrypt.Verify(loginVM.Password, akun.Password))
+                {
+                    var email = myContext.Employees.Find(user.NIK);
+                    var role = myContext.AccountRoles.FirstOrDefault(a => a.NIK == user.NIK);
+                    var find = myContext.Roles.Find(role.RoleID);
+                    var claims = new[]
+                    {
+                    new Claim("Email", email.Email),
+                    new Claim("role", find.RoleName)
+                };
+                    var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["JWT:Key"]));
+                    var sigIn = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+                    var token = new JwtSecurityToken(configuration["Jwt:Issuer"], configuration["Jwt:Audience"],
+                        claims, expires: DateTime.UtcNow.AddDays(1), signingCredentials: sigIn);
+                    var show = new JwtSecurityTokenHandler().WriteToken(token);
+                    return Ok((new { status = HttpStatusCode.OK, result = show, messasge = "Login berhasil" }));
+                }
+                else
+                {
+                    return BadRequest("Invalid credentials");
+                }
             }
         }
     }
